@@ -1,0 +1,23 @@
+<h3 class="title">Item Display</h3>
+
+<table>
+    <thead>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Price</th>
+    </thead>
+
+    <tbody>
+        {% for d in data %}
+        <tr>
+            <td>{{d.id}}</td>
+            <td>{{d.name}}</td>
+            <td>{{d.price}}</td>
+        </tr>>
+        {% endfor %}
+    </tbody>
+
+</table>
+<br>
+
+<button><a href="/items/add/">Add More Data</a></button>
