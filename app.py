@@ -1,6 +1,7 @@
 from flask import Flask
 import os
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import func
 from flask import flash, request, render_template, redirect, url_for
 
 basedir = os.path.abspath(os.path.dirname(__file__))
@@ -37,7 +38,6 @@ def login_post(request=request):
 
         user = User.query.filter_by(username=username).first()
 
-        # take the user-supplied password, hash it, and compare it to the hashed password in the database
         if not user or not user.password == password:
             flash('Please check your login details and try again.')
             return redirect('/')
@@ -58,20 +58,28 @@ def item_add(request=request):
         db.session.add(new_item)
         db.session.commit()
 
-        flash('Item Added Successfully/')
-        
-        return render_template('items_add.html')
-                            
-    return render_template('items_add.html')
+        flash('Item Added Successfully')
+
+        items = Item.query.all()
+
+        item_total_price = db.session.query(func.sum(Item.price)).scalar()
+
+        return render_template('items_add.html', data=items, total_price=item_total_price)
+    
+    items = Item.query.all()
+
+    item_total_price = db.session.query(func.sum(Item.price)).scalar()
+                       
+    return render_template('items_add.html', data=items, total_price=item_total_price)
 
 @app.route("/items/display/", methods=['GET'])
 def item_display():
 
     items = Item.query.all()
 
-    print(items)
-                            
-    return render_template('item_display.html', data=items)
+    item_total_price = db.session.query(func.sum(Item.price)).scalar()
+
+    return render_template('item_display.html', data=items, total_price=item_total_price)
     
 
 if __name__ == '__main__':

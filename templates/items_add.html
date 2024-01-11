@@ -24,4 +24,30 @@
 
     <button><a href="/items/display/">Show Data</a></button>
 
+    <h3 class="title">Item Display</h3>
+
+<table>
+    <thead>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Price</th>
+    </thead>
+
+    <tbody>
+        {% for d in data %}
+        <tr>
+            <td>{{d.id}}</td>
+            <td>{{d.name}}</td>
+            <td>{{d.price}}</td>
+        </tr>>
+        {% endfor %}
+    </tbody>
+
+</table>
+<br>
+
+<h3>Total Of All Items: {{total_price}}</h3>
+
+<br>
+
 </div>
